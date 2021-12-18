@@ -38,6 +38,7 @@ class EmployeeFactory extends Factory
             'email' => $this->faker->safeEmail,
             'department_id' => Department::factory(),
             'job_title' => $jobTitles->random(),
+            // TODO
             'payment_type_class' => $this->faker->regexify('[A-Za-z0-9]{70}'),
             'salary' => $salary,
             'hourly_rate' => $hourlyRate,
