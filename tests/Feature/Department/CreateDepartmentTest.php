@@ -34,8 +34,6 @@ it('should store a department', function () {
     ])->json('data');
 
     expect($department)
-        ->attributes->toBe([
-            'name' => 'Development',
-            'description' => 'Description',
-        ]);
+        ->attributes->name->toBe('Development')
+        ->attributes->description->toBe('Description');
 });
