@@ -5,7 +5,7 @@ namespace App\Actions;
 use App\DataTransferObjects\DepartmentData;
 use App\Models\Department;
 
-class UpdateDepartmentAction
+class UpsertDepartmentAction
 {
     public function execute(Department $department, DepartmentData $departmentData): Department
     {

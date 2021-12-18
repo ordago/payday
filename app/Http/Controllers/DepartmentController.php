@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\CreateDepartmentAction;
-use App\Actions\UpdateDepartmentAction;
+use App\Actions\UpsertDepartmentAction;
 use App\DataTransferObjects\DepartmentData;
-use App\Http\Requests\StoreDepartmentRequest;
-use App\Http\Requests\UpdateDepartmentRequest;
+use App\Http\Requests\UpsertDepartmentRequest;
 use App\Http\Resources\DepartmentResource;
 use App\Models\Department;
 use Illuminate\Http\JsonResponse;
@@ -16,25 +14,25 @@ use Symfony\Component\HttpFoundation\Response;
 class DepartmentController extends Controller
 {
     public function __construct(
-        private readonly CreateDepartmentAction $createDepartment,
-        private readonly UpdateDepartmentAction $updateDepartment,
+        private readonly UpsertDepartmentAction $upsertDepartment,
     ) {}
 
-    public function store(StoreDepartmentRequest $request): JsonResponse
+    public function store(UpsertDepartmentRequest $request): JsonResponse
     {
-        $departmentData = new DepartmentData(...$request->validated());
-        $department = $this->createDepartment->execute($departmentData);
-
-        return (new DepartmentResource($department))
+        return (new DepartmentResource($this->upsert($request, new Department())))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function update(UpdateDepartmentRequest $request, Department $department): HttpResponse
+    public function update(UpsertDepartmentRequest $request, Department $department): HttpResponse
+    {
+        $this->upsert($request, $department);
+        return response()->noContent();
+    }
+
+    private function upsert(UpsertDepartmentRequest $request, Department $department): Department
     {
         $departmentData = new DepartmentData(...$request->validated());
-        $department = $this->updateDepartment->execute($department, $departmentData);
-
-        return response()->noContent();
+        return $this->upsertDepartment->execute($department, $departmentData);
     }
 }

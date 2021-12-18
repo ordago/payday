@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 use function Pest\Laravel\postJson;
 
-it('should return 422 if name is invalid', function ($name) {
+it('should return 422 if name is invalid', function (?string $name) {
     $user = User::factory()->create();
     $this->actingAs($user);
 
