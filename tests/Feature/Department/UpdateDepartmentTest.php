@@ -6,10 +6,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 use function Pest\Laravel\putJson;
 
-it('should update a department', function (string $name, string $description) {
+beforeEach(function () {
     $user = User::factory()->create();
     $this->actingAs($user);
+});
 
+it('should update a department', function (string $name, string $description) {
     $department = Department::factory([
         'name' => 'Development',
     ])->create();

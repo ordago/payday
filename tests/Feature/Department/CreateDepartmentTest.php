@@ -6,10 +6,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 use function Pest\Laravel\postJson;
 
-it('should return 422 if name is invalid', function (?string $name) {
+beforeEach(function () {
     $user = User::factory()->create();
     $this->actingAs($user);
+});
 
+it('should return 422 if name is invalid', function (?string $name) {
     Department::factory([
         'name' => 'Development',
     ])->create();
@@ -25,9 +27,6 @@ it('should return 422 if name is invalid', function (?string $name) {
 ]);
 
 it('should store a department', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
-
     $department= postJson(route('departments.store'), [
         'name' => 'Development',
         'description' => 'Description'
