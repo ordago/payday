@@ -8,6 +8,7 @@ use App\Http\Requests\UpsertDepartmentRequest;
 use App\Http\Resources\DepartmentResource;
 use App\Models\Department;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response as HttpResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,6 +17,16 @@ class DepartmentController extends Controller
     public function __construct(
         private readonly UpsertDepartmentAction $upsertDepartment,
     ) {}
+
+    public function index(): AnonymousResourceCollection
+    {
+        return DepartmentResource::collection(Department::all());
+    }
+
+    public function show(Department $department): DepartmentResource
+    {
+        return new DepartmentResource($department);
+    }
 
     public function store(UpsertDepartmentRequest $request): JsonResponse
     {

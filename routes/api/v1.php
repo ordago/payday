@@ -3,4 +3,4 @@
 use App\Http\Controllers\DepartmentController;
 use Illuminate\Support\Facades\Route;
 
-Route::apiResource('departments', DepartmentController::class);
+Route::apiResource('departments', DepartmentController::class)->except('destroy');
