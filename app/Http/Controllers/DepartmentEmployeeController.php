@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GetDepartmentEmployeesRequest;
 use App\Http\Resources\EmployeeResource;
 use App\Models\Department;
-use Illuminate\Http\Request;
+use App\Models\Employee;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class DepartmentEmployeeController extends Controller
 {
-    public function index(Request $request, Department $department)
+    public function index(GetDepartmentEmployeesRequest $request, Department $department)
     {
-        return EmployeeResource::collection($department->employees);
+        $employees = QueryBuilder::for(Employee::class)
+            ->allowedFilters(['full_name', 'job_title', 'email'])
+            ->whereBelongsTo($department)
+            ->get();
+
+        return EmployeeResource::collection($employees);
     }
 }
