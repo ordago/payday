@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Concerns\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Department extends Model
 {
@@ -21,7 +22,12 @@ class Department extends Model
         'id' => 'integer',
     ];
 
-    public function employees()
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
+
+    public function employees(): HasMany
     {
         return $this->hasMany(Employee::class);
     }
