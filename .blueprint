@@ -1,0 +1,19 @@
+created:
+    - database/factories/DepartmentFactory.php
+    - database/factories/EmployeeFactory.php
+    - database/factories/PaycheckFactory.php
+    - database/factories/TimelogFactory.php
+    - database/migrations/2021_12_18_194142_create_departments_table.php
+    - database/migrations/2021_12_18_194143_create_employees_table.php
+    - database/migrations/2021_12_18_194144_create_paychecks_table.php
+    - database/migrations/2021_12_18_194145_create_timelogs_table.php
+    - app/Models/Department.php
+    - app/Models/Employee.php
+    - app/Models/Paycheck.php
+    - app/Models/Timelog.php
+models:
+    User: { name: string, email: string, email_verified_at: 'datetime nullable', password: string, remember_token: 'string:100 nullable' }
+    Department: { uuid: uuid, name: 'string:50', description: longtext, relationships: { hasMany: Employee } }
+    Employee: { uuid: uuid, full_name: 'string:100', email: 'string:100 index', department_id: 'id foreign', job_title: 'string:50', payment_type_class: 'string:70', salary: 'integer unsigned nullable', hourly_rate: 'integer unsigned nullable', relationships: { hasMany: 'Paycheck, Timelog' } }
+    Paycheck: { employee_id: 'id foreign', net_amount: 'biginteger unsigned', payed_at: datetime }
+    Timelog: { employee_id: 'id foreign', started_at: datetime, stopped_at: datetime, minutes: 'integer unsigned' }
