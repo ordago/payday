@@ -16,6 +16,9 @@ class EmployeeResource extends JsonResource
                 'email' => $this->email,
                 'jobTitle' => $this->job_title,
             ],
+            'included' => [
+                'department' => new DepartmentResource($this->whenLoaded('department')),
+            ],
         ];
     }
 }
