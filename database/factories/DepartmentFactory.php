@@ -23,7 +23,7 @@ class DepartmentFactory extends Factory
     public function definition()
     {
         return [
-            'uuid' => $this->faker->uuid,
+            'uuid' => $this->faker->uuid(),
             'name' => $this->faker->name,
             'description' => $this->faker->text,
         ];

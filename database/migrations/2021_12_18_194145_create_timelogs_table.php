@@ -17,6 +17,7 @@ class CreateTimelogsTable extends Migration
 
         Schema::create('timelogs', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid');
             $table->foreignId('employee_id')->constrained();
             $table->dateTime('started_at');
             $table->dateTime('stopped_at');

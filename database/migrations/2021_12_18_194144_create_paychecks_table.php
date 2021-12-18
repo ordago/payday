@@ -17,6 +17,7 @@ class CreatePaychecksTable extends Migration
 
         Schema::create('paychecks', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid');
             $table->foreignId('employee_id')->constrained();
             $table->unsignedBigInteger('net_amount');
             $table->dateTime('payed_at');

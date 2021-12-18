@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Employee;
 use App\Models\Paycheck;
+use Carbon\Carbon;
 
 class PaycheckFactory extends Factory
 {
@@ -24,9 +25,10 @@ class PaycheckFactory extends Factory
     public function definition()
     {
         return [
+            'uuid' => $this->faker->uuid(),
             'employee_id' => Employee::factory(),
-            'net_amount' => $this->faker->randomNumber(),
-            'payed_at' => $this->faker->dateTime(),
+            'net_amount' => rand(4000, 10000) * 100,
+            'payed_at' => Carbon::now()->subMonth()->startOfMonth(),
         ];
     }
 }

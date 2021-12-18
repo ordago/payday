@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Employee;
 use App\Models\Timelog;
+use Carbon\Carbon;
 
 class TimelogFactory extends Factory
 {
@@ -23,11 +24,16 @@ class TimelogFactory extends Factory
      */
     public function definition()
     {
+        $minutes = rand(1, 8) * 60;
+        $startedAt = Carbon::now()->subDays(rand(1, 30));
+        $stoppedAt = $startedAt->addMinutes($minutes);
+
         return [
+            'uuid' => $this->faker->uuid(),
             'employee_id' => Employee::factory(),
-            'started_at' => $this->faker->dateTime(),
-            'stopped_at' => $this->faker->dateTime(),
-            'minutes' => $this->faker->randomNumber(),
+            'started_at' => $startedAt,
+            'stopped_at' => $stoppedAt,
+            'minutes' => $minutes,
         ];
     }
 }
