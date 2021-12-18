@@ -13,6 +13,7 @@ class Timelog extends Model
     use HasUuid;
 
     protected $fillable = [
+        'uuid',
         'employee_id',
         'started_at',
         'stopped_at',

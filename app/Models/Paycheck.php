@@ -13,6 +13,7 @@ class Paycheck extends Model
     use HasUuid;
 
     protected $fillable = [
+        'uuid',
         'employee_id',
         'net_amount',
         'payed_at',
