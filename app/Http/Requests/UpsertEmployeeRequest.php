@@ -25,9 +25,9 @@ class UpsertEmployeeRequest extends FormRequest
                 'departmentId' => 'required|string|exists:departments,uuid',
                 'jobTitle' => 'required|string',
                 // TODO enum validation
-                'paymentType' => 'required|string',
-                'salary' => 'required_if:paymentType,salary|numeric',
-                'hourlyRate' => 'required_if:paymentType,hourlyRate|numeric',
+                'paymentType' => 'required|string|in:salary,hourlyRate',
+                'salary' => 'nullable|sometimes|integer',
+                'hourlyRate' => 'nullable|sometimes|integer',
         ];
     }
 }

@@ -4,20 +4,44 @@ namespace App\Actions;
 
 use App\DataTransferObjects\EmployeeData;
 use App\Models\Employee;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class UpsertEmployeeAction
 {
+    /**
+     * @throws ValidationException
+     */
     public function execute(Employee $employee, EmployeeData $employeeData): Employee
     {
-            $employee->full_name = $employeeData->fullName;
-            $employee->email = $employeeData->email;
-            $employee->department_id = $employeeData->department->id;
-            $employee->job_title = $employeeData->jobTitle;
-            $employee->payment_type_class = $employeeData->paymentType;
-            $employee->salary = $employeeData->salary;
-            $employee->hourly_rate = $employeeData->hourlyRate;
-            $employee->save();
+        $this->validate($employeeData);
 
-            return $employee;
+        $employee->full_name = $employeeData->fullName;
+        $employee->email = $employeeData->email;
+        $employee->department_id = $employeeData->department->id;
+        $employee->job_title = $employeeData->jobTitle;
+        $employee->payment_type_class = $employeeData->paymentType;
+        $employee->salary = $employeeData->salary;
+        $employee->hourly_rate = $employeeData->hourlyRate;
+        $employee->save();
+
+        return $employee;
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    private function validate(EmployeeData $employeeData): void
+    {
+        $validator = Validator::make([
+            'paymentType' => $employeeData->paymentType,
+            'salary' => $employeeData->salary,
+            'hourlyRate' => $employeeData->hourlyRate,
+        ], [
+            'salary' => 'required_if:paymentType,salary|numeric',
+            'hourlyRate' => 'required_if:paymentType,hourlyRate|numeric',
+        ]);
+
+        $validator->validate();
     }
 }
