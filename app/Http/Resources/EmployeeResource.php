@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\ValueObjects\Money;
+use App\ValueObjects\Amount;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class EmployeeResource extends JsonResource
@@ -18,10 +18,7 @@ class EmployeeResource extends JsonResource
                 'jobTitle' => $this->job_title,
                 'payment' => [
                     'type' => $this->payment_type->type(),
-                    'amount' => [
-                        'cents' => $this->payment_type->amount(),
-                        'dollars' => Money::from($this->payment_type->amount())->toDollars(),
-                    ],
+                    'amount' => Amount::from($this->payment_type->amount())->toArray(),
                 ],
             ],
             'included' => [

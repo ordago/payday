@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\ValueObjects\Money;
+use App\ValueObjects\Amount;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PaycheckResource extends JsonResource
@@ -14,10 +14,7 @@ class PaycheckResource extends JsonResource
             'type' => 'paychecks',
             'attributes' => [
                 'payedAt' => $this->payed_at,
-                'netAmount' => [
-                    'cents' => $this->net_amount,
-                    'dollars' => Money::from($this->net_amount)->toDollars(),
-                ],
+                'netAmount' => Amount::from($this->net_amount)->toArray(),
             ],
             'included' => [
                 'employee' => new EmployeeResource($this->whenLoaded('employee')),
