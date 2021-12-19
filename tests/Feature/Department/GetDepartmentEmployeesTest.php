@@ -39,7 +39,7 @@ it('should filter employees', function () {
     ])->count(4)->create();
 
     $developer = Employee::factory([
-        'full_name' => 'Martin Joo',
+        'full_name' => 'Test John Doe',
         'department_id' => $development->id,
     ])->create();
 
@@ -51,7 +51,7 @@ it('should filter employees', function () {
         route('department-employees.index', [
             'department' => $development,
             'filter' => [
-                'full_name' => 'Joo',
+                'full_name' => 'Test',
             ]
         ]))
         ->json('data');
