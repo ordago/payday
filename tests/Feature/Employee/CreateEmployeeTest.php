@@ -60,7 +60,7 @@ it('should return 422 if salary or hourly rate missing', function (string $payme
     ['paymentType' => 'hourlyRate', 'salary' => null, 'hourlyRate' => 0],
 ]);
 
-it('should store an employee', function () {
+it('should store an employee with payment type salary', function () {
     $employee = postJson(route('employees.store'), [
         'fullName' => 'John Doe',
         'email' => 'test@example.com',
@@ -73,5 +73,25 @@ it('should store an employee', function () {
     expect($employee)
         ->attributes->fullName->toBe('John Doe')
         ->attributes->email->toBe('test@example.com')
-        ->attributes->jobTitle->toBe('BE Developer');
+        ->attributes->jobTitle->toBe('BE Developer')
+        ->attributes->payment->type->toBe('salary')
+        ->attributes->payment->amount->toBe(75000 * 100);
+});
+
+it('should store an employee with payment type hourly rate', function () {
+    $employee = postJson(route('employees.store'), [
+        'fullName' => 'John Doe',
+        'email' => 'test@example.com',
+        'departmentId' => Department::factory()->create()->uuid,
+        'jobTitle' => 'BE Developer',
+        'paymentType' => 'hourlyRate',
+        'hourlyRate' => 30 * 100,
+    ])->json('data');
+
+    expect($employee)
+        ->attributes->fullName->toBe('John Doe')
+        ->attributes->email->toBe('test@example.com')
+        ->attributes->jobTitle->toBe('BE Developer')
+        ->attributes->payment->type->toBe('hourlyRate')
+        ->attributes->payment->amount->toBe(30 * 100);
 });

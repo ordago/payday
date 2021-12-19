@@ -17,6 +17,11 @@ class EmployeeController extends Controller
     {
     }
 
+    public function show(Employee $employee)
+    {
+        return new EmployeeResource($employee);
+    }
+
     public function store(UpsertEmployeeRequest $request): JsonResponse
     {
         return (new EmployeeResource($this->upsert($request, new Employee())))

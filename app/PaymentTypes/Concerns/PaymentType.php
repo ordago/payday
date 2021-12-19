@@ -10,5 +10,8 @@ abstract class PaymentType
     {
     }
 
+    abstract public function type(): string;
+    abstract public function amount(): int;
+
     // TODO: method that calculates how much is the employee's salary
 }

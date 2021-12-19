@@ -15,6 +15,10 @@ class EmployeeResource extends JsonResource
                 'fullName' => $this->full_name,
                 'email' => $this->email,
                 'jobTitle' => $this->job_title,
+                'payment' => [
+                    'type' => $this->payment_type->type(),
+                    'amount' => $this->payment_type->amount(),
+                ],
             ],
             'included' => [
                 'department' => new DepartmentResource($this->whenLoaded('department')),

@@ -38,7 +38,7 @@ class Employee extends Model
 
     public function getPaymentTypeAttribute(): PaymentType
     {
-        return PaymentTypes::from($this->payment_type)->makePaymentType($this);
+        return PaymentTypes::from($this->original['payment_type'])->makePaymentType($this);
     }
 
     public function paychecks(): HasMany
