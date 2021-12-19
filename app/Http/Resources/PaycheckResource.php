@@ -13,7 +13,7 @@ class PaycheckResource extends JsonResource
             'id' => $this->uuid,
             'type' => 'paychecks',
             'attributes' => [
-                'payedAt' => $this->payed_at,
+                'payedAt' => $this->payed_at->format('Y-m-d'),
                 'netAmount' => Amount::from($this->net_amount)->toArray(),
             ],
             'included' => [

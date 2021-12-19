@@ -9,7 +9,6 @@ class EmployeePaycheckController extends Controller
 {
     public function index(Employee $employee)
     {
-        $employee->load('paychecks.employee');
-        return PaycheckResource::collection($employee->paychecks);
+        return PaycheckResource::collection($employee->paychecks()->latest()->get());
     }
 }
