@@ -25,6 +25,7 @@ class CreateEmployeesTable extends Migration
             $table->string('payment_type', 20);
             $table->unsignedInteger('salary')->nullable();
             $table->unsignedInteger('hourly_rate')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
 

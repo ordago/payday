@@ -35,6 +35,12 @@ class EmployeeController extends Controller
         return response()->noContent();
     }
 
+    public function destroy(Employee $employee): HttpResponse
+    {
+        $employee->delete();
+        return response()->noContent();
+    }
+
     private function upsert(UpsertEmployeeRequest $request, Employee $employee): Employee
     {
         $employeeData = EmployeeData::fromRequest($request);
