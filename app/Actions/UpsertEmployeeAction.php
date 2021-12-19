@@ -22,7 +22,7 @@ class UpsertEmployeeAction
         $employee->email = $employeeData->email;
         $employee->department_id = $employeeData->department->id;
         $employee->job_title = $employeeData->jobTitle;
-        $employee->payment_type_class = PaymentTypes::from($employeeData->paymentType)->getPaymentTypeClass();
+        $employee->payment_type_class = $employeeData->paymentType;
         $employee->salary = $employeeData->salary;
         $employee->hourly_rate = $employeeData->hourlyRate;
         $employee->save();

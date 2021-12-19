@@ -24,8 +24,7 @@ class EmployeeFactory extends Factory
      */
     public function definition()
     {
-        $paymentTypeClass = collect([Salary::class, HourlyRate::class])->random();
-        $isSalary = $paymentTypeClass === Salary::class;
+        $isSalary = !!rand(0, 1);
         $salary = $isSalary ? rand(48000, 120000) * 100 : null;
         $hourlyRate = !$isSalary ? rand(15, 150) * 100 : null;
 
@@ -41,7 +40,7 @@ class EmployeeFactory extends Factory
             'email' => $this->faker->safeEmail,
             'department_id' => Department::factory(),
             'job_title' => $jobTitles->random(),
-            'payment_type_class' => $paymentTypeClass,
+            'payment_type_class' => $isSalary ? 'salary' : 'hourly-rate',
             'salary' => $salary,
             'hourly_rate' => $hourlyRate,
         ];
