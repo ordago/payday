@@ -5,7 +5,8 @@ use App\Models\Employee;
 use App\Models\User;
 use Symfony\Component\HttpFoundation\Response;
 
-use function Pest\Laravel\postJson;
+use function Pest\Laravel\getJson;
+use function Pest\Laravel\putJson;
 
 beforeEach(function () {
     $user = User::factory()->create();
@@ -24,17 +25,22 @@ it('should update an employee', function () {
         'job_title' => 'BE Developer',
     ])->create();
 
-    $employee = postJson(route('employees.store'), [
+    putJson(route('employees.update', ['employee' => $employee]), [
         'fullName' => 'John Doe',
         'email' => 'john@example.com',
         'departmentId' => $development->uuid,
         'jobTitle' => 'Senior BE Developer',
-        'paymentType' => 'salary',
-        'salary' => 75000 * 100,
-    ])->json('data');
+        'paymentType' => 'hourlyRate',
+        'hourlyRate' => 30 * 100,
+    ])->assertStatus(Response::HTTP_NO_CONTENT);
+
+    $employee = getJson(route('employees.show', compact('employee')))
+        ->json('data');
 
     expect($employee)
         ->attributes->fullName->toBe('John Doe')
         ->attributes->email->toBe('john@example.com')
-        ->attributes->jobTitle->toBe('Senior BE Developer');
+        ->attributes->jobTitle->toBe('Senior BE Developer')
+        ->attributes->payment->type->toBe('hourlyRate')
+        ->attributes->payment->amount->toBe(30 * 100);
 });
