@@ -42,5 +42,6 @@ it('should update an employee', function () {
         ->attributes->email->toBe('john@example.com')
         ->attributes->jobTitle->toBe('Senior BE Developer')
         ->attributes->payment->type->toBe('hourlyRate')
-        ->attributes->payment->amount->toBe(30 * 100);
+        ->attributes->payment->amount->cents->toBe(30 * 100)
+        ->attributes->payment->amount->dollars->toBe('$30.00');
 });

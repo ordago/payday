@@ -75,7 +75,8 @@ it('should store an employee with payment type salary', function () {
         ->attributes->email->toBe('test@example.com')
         ->attributes->jobTitle->toBe('BE Developer')
         ->attributes->payment->type->toBe('salary')
-        ->attributes->payment->amount->toBe(75000 * 100);
+        ->attributes->payment->amount->cents->toBe(75000 * 100)
+        ->attributes->payment->amount->dollars->toBe('$75,000.00');
 });
 
 it('should store an employee with payment type hourly rate', function () {
@@ -93,5 +94,6 @@ it('should store an employee with payment type hourly rate', function () {
         ->attributes->email->toBe('test@example.com')
         ->attributes->jobTitle->toBe('BE Developer')
         ->attributes->payment->type->toBe('hourlyRate')
-        ->attributes->payment->amount->toBe(30 * 100);
+        ->attributes->payment->amount->cents->toBe(30 * 100)
+        ->attributes->payment->amount->dollars->toBe('$30.00');
 });
