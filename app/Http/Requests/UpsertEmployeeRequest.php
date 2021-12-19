@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\Department;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpsertEmployeeRequest extends FormRequest
 {
@@ -16,7 +17,11 @@ class UpsertEmployeeRequest extends FormRequest
     {
         return [
                 'fullName' => 'required|string',
-                'email' => 'required|email|unique:employees,email',
+                'email' => [
+                    'required',
+                    'email',
+                    Rule::unique('employees', 'email')->ignore($this->employee),
+                ],
                 'departmentId' => 'required|string|exists:departments,uuid',
                 'jobTitle' => 'required|string',
                 // TODO enum validation

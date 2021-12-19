@@ -29,6 +29,11 @@ class Employee extends Model
         'department_id' => 'integer',
     ];
 
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
+
     public function paychecks(): HasMany
     {
         return $this->hasMany(Paycheck::class);

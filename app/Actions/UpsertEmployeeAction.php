@@ -7,16 +7,17 @@ use App\Models\Employee;
 
 class UpsertEmployeeAction
 {
-    public function execute(EmployeeData $employeeData): Employee
+    public function execute(Employee $employee, EmployeeData $employeeData): Employee
     {
-        return Employee::create([
-            'full_name' => $employeeData->fullName,
-            'email' => $employeeData->email,
-            'department_id' => $employeeData->department->id,
-            'job_title' => $employeeData->jobTitle,
-            'payment_type_class' => $employeeData->paymentType,
-            'salary' => $employeeData->salary,
-            'hourly_rate' => $employeeData->hourlyRate,
-        ]);
+            $employee->full_name = $employeeData->fullName;
+            $employee->email = $employeeData->email;
+            $employee->department_id = $employeeData->department->id;
+            $employee->job_title = $employeeData->jobTitle;
+            $employee->payment_type_class = $employeeData->paymentType;
+            $employee->salary = $employeeData->salary;
+            $employee->hourly_rate = $employeeData->hourlyRate;
+            $employee->save();
+
+            return $employee;
     }
 }
