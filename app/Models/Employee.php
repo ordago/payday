@@ -21,7 +21,7 @@ class Employee extends Model
         'email',
         'department_id',
         'job_title',
-        'payment_type_class',
+        'payment_type',
         'salary',
         'hourly_rate',
     ];
@@ -38,7 +38,7 @@ class Employee extends Model
 
     public function getPaymentTypeAttribute(): PaymentType
     {
-        return PaymentTypes::from($this->payment_type_class)->makePaymentType($this);
+        return PaymentTypes::from($this->payment_type)->makePaymentType($this);
     }
 
     public function paychecks(): HasMany

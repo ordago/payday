@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\PaymentTypes;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Department;
 use App\Models\Employee;
@@ -40,7 +41,7 @@ class EmployeeFactory extends Factory
             'email' => $this->faker->safeEmail,
             'department_id' => Department::factory(),
             'job_title' => $jobTitles->random(),
-            'payment_type_class' => $isSalary ? 'salary' : 'hourly-rate',
+            'payment_type' => $isSalary ? PaymentTypes::SALARY : PaymentTypes::HOURLY_RATE,
             'salary' => $salary,
             'hourly_rate' => $hourlyRate,
         ];

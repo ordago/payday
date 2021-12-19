@@ -22,7 +22,7 @@ class CreateEmployeesTable extends Migration
             $table->string('email', 100)->index();
             $table->foreignId('department_id')->constrained();
             $table->string('job_title', 50);
-            $table->string('payment_type_class', 70);
+            $table->string('payment_type', 20);
             $table->unsignedInteger('salary')->nullable();
             $table->unsignedInteger('hourly_rate')->nullable();
             $table->timestamps();

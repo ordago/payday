@@ -3,7 +3,6 @@
 namespace App\Actions;
 
 use App\DataTransferObjects\EmployeeData;
-use App\Enums\PaymentTypes;
 use App\Models\Employee;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -22,7 +21,7 @@ class UpsertEmployeeAction
         $employee->email = $employeeData->email;
         $employee->department_id = $employeeData->department->id;
         $employee->job_title = $employeeData->jobTitle;
-        $employee->payment_type_class = $employeeData->paymentType;
+        $employee->payment_type = $employeeData->paymentType;
         $employee->salary = $employeeData->salary;
         $employee->hourly_rate = $employeeData->hourlyRate;
         $employee->save();

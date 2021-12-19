@@ -11,7 +11,7 @@ models:
     email: string:100 index
     department_id: id foreign
     job_title: string:50
-    payment_type_class: string:70
+    payment_type: string:20
     salary: integer unsigned nullable
     hourly_rate: integer unsigned nullable
     relationships:
