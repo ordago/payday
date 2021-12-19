@@ -3,8 +3,11 @@
 namespace App\Http\Requests;
 
 use App\Models\Department;
+use App\Enums\PaymentTypes;
+use App\PaymentTypes\Concerns\PaymentType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
 
 class UpsertEmployeeRequest extends FormRequest
 {
@@ -24,8 +27,10 @@ class UpsertEmployeeRequest extends FormRequest
                 ],
                 'departmentId' => 'required|string|exists:departments,uuid',
                 'jobTitle' => 'required|string',
-                // TODO enum validation
-                'paymentType' => 'required|string|in:salary,hourlyRate',
+                'paymentType' => [
+                    'required',
+                    new Enum(PaymentTypes::class),
+                ],
                 'salary' => 'nullable|sometimes|integer',
                 'hourlyRate' => 'nullable|sometimes|integer',
         ];

@@ -3,9 +3,10 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use App\Models\Department;
 use App\Models\Employee;
+use App\PaymentTypes\HourlyRate;
+use App\PaymentTypes\Salary;
 
 class EmployeeFactory extends Factory
 {
@@ -23,9 +24,11 @@ class EmployeeFactory extends Factory
      */
     public function definition()
     {
-        $hasSalary = !!rand(0, 1);
-        $salary = $hasSalary ? rand(48000, 120000) * 100 : null;
-        $hourlyRate = !$hasSalary ? rand(15, 150) * 100 : null;
+        $paymentTypeClass = collect([Salary::class, HourlyRate::class])->random();
+        $isSalary = $paymentTypeClass === Salary::class;
+        $salary = $isSalary ? rand(48000, 120000) * 100 : null;
+        $hourlyRate = !$isSalary ? rand(15, 150) * 100 : null;
+
         $jobTitles = collect([
             'Full stack developer',
             'Frontend developer',
@@ -38,8 +41,7 @@ class EmployeeFactory extends Factory
             'email' => $this->faker->safeEmail,
             'department_id' => Department::factory(),
             'job_title' => $jobTitles->random(),
-            // TODO
-            'payment_type_class' => $this->faker->regexify('[A-Za-z0-9]{70}'),
+            'payment_type_class' => $paymentTypeClass,
             'salary' => $salary,
             'hourly_rate' => $hourlyRate,
         ];
