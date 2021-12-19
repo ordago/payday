@@ -5,6 +5,7 @@ namespace App\Actions;
 use App\DataTransferObjects\EmployeeData;
 use App\Models\Employee;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class UpsertEmployeeAction
@@ -33,14 +34,19 @@ class UpsertEmployeeAction
      */
     private function validate(EmployeeData $employeeData): void
     {
+        $rules = [
+            $employeeData->paymentType => [
+                'required',
+                'numeric',
+                Rule::notIn([0]),
+            ],
+        ];
+
         $validator = Validator::make([
             'paymentType' => $employeeData->paymentType,
             'salary' => $employeeData->salary,
             'hourlyRate' => $employeeData->hourlyRate,
-        ], [
-            'salary' => 'required_if:paymentType,salary|numeric',
-            'hourlyRate' => 'required_if:paymentType,hourlyRate|numeric',
-        ]);
+        ], $rules);
 
         $validator->validate();
     }
