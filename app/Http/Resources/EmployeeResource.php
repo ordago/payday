@@ -25,6 +25,7 @@ class EmployeeResource extends JsonApiResource
     {
         return [
             'department' => fn () => new DepartmentResource($this->department),
+            'paychecks' => fn () => PaycheckResource::collection($this->paychecks),
         ];
     }
 
