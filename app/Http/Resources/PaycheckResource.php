@@ -3,22 +3,23 @@
 namespace App\Http\Resources;
 
 use App\ValueObjects\Amount;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Request;
+use TiMacDonald\JsonApi\JsonApiResource;
 
-class PaycheckResource extends JsonResource
+class PaycheckResource extends JsonApiResource
 {
-    public function toArray($request)
+    public function toAttributes(Request $request): array
     {
         return [
-            'id' => $this->uuid,
-            'type' => 'paychecks',
-            'attributes' => [
-                'payedAt' => $this->payed_at->format('Y-m-d'),
-                'netAmount' => Amount::from($this->net_amount)->toArray(),
-            ],
-            'included' => [
-                'employee' => new EmployeeResource($this->whenLoaded('employee')),
-            ],
+            'payedAt' => $this->payed_at->format('Y-m-d'),
+            'netAmount' => Amount::from($this->net_amount)->toArray(),
+        ];
+    }
+
+    public function toRelationships(Request $request): array
+    {
+        return [
+            'employee' => fn () => new EmployeeResource($this->employee),
         ];
     }
 }

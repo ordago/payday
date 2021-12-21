@@ -2,19 +2,23 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Request;
+use TiMacDonald\JsonApi\JsonApiResource;
 
-class DepartmentResource extends JsonResource
+class DepartmentResource extends JsonApiResource
 {
-    public function toArray($request)
+    public function toAttributes(Request $request): array
     {
         return [
-            'id' => $this->uuid,
-            'type' => 'departments',
-            'attributes' => [
-                'name' => $this->name,
-                'description' => $this->description,
-            ],
+            'name' => $this->name,
+            'description' => $this->description,
+        ];
+    }
+
+    public function toLinks(Request $request): array
+    {
+        return [
+            'self' => route('departments.show', ['department' => $this->uuid]),
         ];
     }
 }

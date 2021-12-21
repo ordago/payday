@@ -3,27 +3,35 @@
 namespace App\Http\Resources;
 
 use App\ValueObjects\Amount;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Request;
+use TiMacDonald\JsonApi\JsonApiResource;
 
-class EmployeeResource extends JsonResource
+class EmployeeResource extends JsonApiResource
 {
-    public function toArray($request)
+    public function toAttributes(Request $request): array
     {
         return [
-            'id' => $this->uuid,
-            'type' => 'employees',
-            'attributes' => [
-                'fullName' => $this->full_name,
-                'email' => $this->email,
-                'jobTitle' => $this->job_title,
-                'payment' => [
-                    'type' => $this->payment_type->type(),
-                    'amount' => Amount::from($this->payment_type->amount())->toArray(),
-                ],
+            'fullName' => $this->full_name,
+            'email' => $this->email,
+            'jobTitle' => $this->job_title,
+            'payment' => [
+                'type' => $this->payment_type->type(),
+                'amount' => Amount::from($this->payment_type->amount())->toArray(),
             ],
-            'included' => [
-                'department' => new DepartmentResource($this->whenLoaded('department')),
-            ],
+        ];
+    }
+
+    public function toRelationships(Request $request): array
+    {
+        return [
+            'department' => fn () => new DepartmentResource($this->department),
+        ];
+    }
+
+    public function toLinks(Request $request): array
+    {
+        return [
+            'self' => route('employees.show', ['employee' => $this->uuid]),
         ];
     }
 }

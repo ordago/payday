@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
+use TiMacDonald\JsonApi\JsonApiResource;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,8 +25,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        DB::listen(function ($query) {
-            logger(Str::replaceArray('?', $query->bindings, $query->sql));
-        });
+        JsonApiResource::resolveIdUsing(fn (Model $model) => $model->uuid);
     }
 }
