@@ -19,20 +19,20 @@ class UpsertEmployeeRequest extends FormRequest
     public function rules()
     {
         return [
-                'fullName' => 'required|string',
+                'fullName' => ['required', 'string'],
                 'email' => [
                     'required',
                     'email',
                     Rule::unique('employees', 'email')->ignore($this->employee),
                 ],
-                'departmentId' => 'required|string|exists:departments,uuid',
-                'jobTitle' => 'required|string',
+                'departmentId' => ['required', 'string', 'exists:departments,uuid'],
+                'jobTitle' => ['required', 'string'],
                 'paymentType' => [
                     'required',
                     new Enum(PaymentTypes::class),
                 ],
-                'salary' => 'nullable|sometimes|integer',
-                'hourlyRate' => 'nullable|sometimes|integer',
+                'salary' => ['nullable', 'sometimes', 'integer'],
+                'hourlyRate' => ['nullable', 'sometimes', 'integer'],
         ];
     }
 }
