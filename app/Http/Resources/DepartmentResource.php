@@ -18,7 +18,7 @@ class DepartmentResource extends JsonApiResource
     public function toRelationships(Request $request): array
     {
         return [
-            'employees' => EmployeeResource::collection($this->employees),
+            'employees' => fn () => EmployeeResource::collection($this->employees),
         ];
     }
 
