@@ -25,12 +25,12 @@ class DepartmentController extends Controller
 
     public function show(Department $department): DepartmentResource
     {
-        return new DepartmentResource($department);
+        return DepartmentResource::make($department);
     }
 
     public function store(UpsertDepartmentRequest $request): JsonResponse
     {
-        return (new DepartmentResource($this->upsert($request, new Department())))
+        return DepartmentResource::make($this->upsert($request, new Department()))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
     }

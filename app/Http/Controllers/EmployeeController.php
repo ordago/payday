@@ -31,12 +31,12 @@ class EmployeeController extends Controller
 
     public function show(Employee $employee)
     {
-        return new EmployeeResource($employee);
+        return EmployeeResource::make($employee);
     }
 
     public function store(UpsertEmployeeRequest $request): JsonResponse
     {
-        return (new EmployeeResource($this->upsert($request, new Employee())))
+        return EmployeeResource::make($this->upsert($request, new Employee()))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
     }
