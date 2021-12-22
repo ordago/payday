@@ -2,7 +2,6 @@
 
 use App\Models\Department;
 use App\Models\User;
-use Symfony\Component\HttpFoundation\Response;
 
 use function Pest\Laravel\putJson;
 
@@ -19,7 +18,7 @@ it('should update a department', function (string $name, string $description) {
     putJson(route('departments.update', compact('department')), [
         'name' => $name,
         'description' => $description,
-    ])->assertStatus(Response::HTTP_NO_CONTENT);
+    ])->assertNoContent();
 
     expect(Department::find($department->id))
         ->name->toBe($name)
