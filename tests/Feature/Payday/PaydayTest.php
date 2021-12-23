@@ -4,6 +4,7 @@ use App\Enums\PaymentTypes;
 use App\Models\Employee;
 use App\Models\Timelog;
 use App\Models\User;
+use Carbon\Carbon;
 
 use function Pest\Laravel\postJson;
 
@@ -35,29 +36,31 @@ it('should create paychecks for salary employees', function () {
 });
 
 it('should create paychecks for hourly rate employees', function () {
-    $employee = Employee::factory([
-        'hourly_rate' => 10 * 100,
-        'payment_type' => PaymentTypes::HOURLY_RATE->value,
-    ])->create();
+    $this->travelTo(Carbon::parse('2022-02-10'), function () {
+        $employee = Employee::factory([
+            'hourly_rate' => 10 * 100,
+            'payment_type' => PaymentTypes::HOURLY_RATE->value,
+        ])->create();
 
-    $dayBeforeYesterday = now()->subDays(2);
-    $yesterday = now()->subDay();
-    $today = now();
+        $dayBeforeYesterday = now()->subDays(2);
+        $yesterday = now()->subDay();
+        $today = now();
 
-    Timelog::factory()
-        ->count(3)
-        ->sequence(
-            ['employee_id' => $employee, 'minutes' => 90, 'started_at' => $dayBeforeYesterday, 'stopped_at' => $dayBeforeYesterday->copy()->addMinutes(90)],
-            ['employee_id' => $employee, 'minutes' => 15, 'started_at' => $yesterday, 'stopped_at' => $yesterday->copy()->addMinutes(15)],
-            ['employee_id' => $employee, 'minutes' => 51, 'started_at' => $today, 'stopped_at' => $today->copy()->addMinutes(51)],
-        )
-        ->create();
+        Timelog::factory()
+            ->count(3)
+            ->sequence(
+                ['employee_id' => $employee, 'minutes' => 90, 'started_at' => $dayBeforeYesterday, 'stopped_at' => $dayBeforeYesterday->copy()->addMinutes(90)],
+                ['employee_id' => $employee, 'minutes' => 15, 'started_at' => $yesterday, 'stopped_at' => $yesterday->copy()->addMinutes(15)],
+                ['employee_id' => $employee, 'minutes' => 51, 'started_at' => $today, 'stopped_at' => $today->copy()->addMinutes(51)],
+            )
+            ->create();
 
-    postJson(route('payday.store'))
-        ->assertNoContent();
+        postJson(route('payday.store'))
+            ->assertNoContent();
 
-    $this->assertDatabaseHas('paychecks', [
-        'employee_id' => $employee->id,
-        'net_amount' => 26 * 100,
-    ]);
+        $this->assertDatabaseHas('paychecks', [
+            'employee_id' => $employee->id,
+            'net_amount' => 30 * 100,
+        ]);
+    });
 });

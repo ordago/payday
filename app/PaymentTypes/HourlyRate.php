@@ -32,6 +32,6 @@ class HourlyRate extends PaymentType
             ->whereBetween('stopped_at', [now()->startOfMonth(), now()->endOfMonth()])
             ->sum('minutes') / 60;
 
-        return $hoursWorked * $this->employee->hourly_rate;
+        return round($hoursWorked) * $this->employee->hourly_rate;
     }
 }
