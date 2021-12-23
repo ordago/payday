@@ -18,4 +18,9 @@ class Salary extends PaymentType
         throw_if($this->employee->salary === null, new RuntimeException('Salary cannot be null'));
         return $this->employee->salary;
     }
+
+    public function monthlyAmount(): int
+    {
+        return $this->employee->salary / 12;
+    }
 }

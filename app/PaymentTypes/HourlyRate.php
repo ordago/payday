@@ -18,4 +18,9 @@ class HourlyRate extends PaymentType
         throw_if($this->employee->hourly_rate === null, new RuntimeException('Hourly rate cannot be null'));
         return $this->employee->hourly_rate;
     }
+
+    public function monthlyAmount(): int
+    {
+        return 1;
+    }
 }
