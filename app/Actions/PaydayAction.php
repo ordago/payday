@@ -2,19 +2,20 @@
 
 namespace App\Actions;
 
-use App\Enums\PaymentTypes;
 use App\Models\Employee;
-use App\Models\Paycheck;
+use Illuminate\Support\Facades\DB;
 
 class PaydayAction
 {
     public function execute(): void
     {
-        foreach (Employee::all() as $employee) {
-            $employee->paychecks()->create([
-                'net_amount' => $employee->payment_type->monthlyAmount(),
-                'payed_at' => now(),
-            ]);
-        }
+        DB::transaction(function () {
+            foreach (Employee::all() as $employee) {
+                $employee->paychecks()->create([
+                    'net_amount' => $employee->payment_type->monthlyAmount(),
+                    'payed_at' => now(),
+                ]);
+            }
+        });
     }
 }
