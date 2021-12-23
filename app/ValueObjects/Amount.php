@@ -8,11 +8,11 @@ class Amount
     {
     }
 
-    public static function from(int $valueIntCents): self
+    public static function from(int $valueInCents): self
     {
         return new static(
-            Money::from($valueIntCents),
-            Money::from($valueIntCents),
+            Money::from($valueInCents),
+            Money::from($valueInCents),
         );
     }
 
