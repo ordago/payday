@@ -89,3 +89,17 @@ it('should create paychecks for hourly rate employees only for current month', f
         ]);
     });
 });
+
+it('should not create paychecks for hourly rate employees without time logs', function () {
+    $this->travelTo(Carbon::parse('2022-02-10'), function () {
+        $employee = Employee::factory([
+            'hourly_rate' => 10 * 100,
+            'payment_type' => PaymentTypes::HOURLY_RATE->value,
+        ])->create();
+
+        postJson(route('payday.store'))
+            ->assertNoContent();
+
+        $this->assertDatabaseCount('paychecks', 0);
+    });
+});

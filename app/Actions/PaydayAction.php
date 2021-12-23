@@ -11,8 +11,13 @@ class PaydayAction
     {
         DB::transaction(function () {
             foreach (Employee::all() as $employee) {
+                $amount = $employee->payment_type->monthlyAmount();
+                if ($amount === 0) {
+                    continue;
+                }
+
                 $employee->paychecks()->create([
-                    'net_amount' => $employee->payment_type->monthlyAmount(),
+                    'net_amount' => $amount,
                     'payed_at' => now(),
                 ]);
             }
