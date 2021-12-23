@@ -11,8 +11,7 @@ class PaydayAction
     public function execute(): void
     {
         foreach (Employee::all() as $employee) {
-            Paycheck::create([
-                'employee_id' => $employee->id,
+            $employee->paychecks()->create([
                 'net_amount' => $employee->payment_type->monthlyAmount(),
                 'payed_at' => now(),
             ]);
