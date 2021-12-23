@@ -4,7 +4,6 @@ namespace App\Http\Requests;
 
 use App\Models\Department;
 use App\Enums\PaymentTypes;
-use App\PaymentTypes\Concerns\PaymentType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
