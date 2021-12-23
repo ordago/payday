@@ -1,10 +1,8 @@
 <?php
 
 use App\Enums\PaymentTypes;
-use App\Models\Department;
 use App\Models\Employee;
 use App\Models\User;
-use Symfony\Component\HttpFoundation\Response;
 
 use function Pest\Laravel\postJson;
 
@@ -23,14 +21,14 @@ it('should create paychecks for salary employees', function () {
         ->create();
 
     postJson(route('payday.store'))
-        ->assertCreated();
+        ->assertNoContent();
 
     $this->assertDatabaseHas('paychecks', [
         'employee_id' => $employees[0]->id,
-        'net_amount' => 4166,
+        'net_amount' => 416666,
     ]);
     $this->assertDatabaseHas('paychecks', [
         'employee_id' => $employees[1]->id,
-        'net_amount' => 5833,
+        'net_amount' => 583333,
     ]);
 });
