@@ -19,12 +19,4 @@ enum PaymentTypes: string
             self::HOURLY_RATE => new HourlyRate($employee),
         };
     }
-
-    public function getPaymentTypeClass(): string
-    {
-        return match ($this) {
-            self::SALARY => Salary::class,
-            self::HOURLY_RATE => HourlyRate::class,
-        };
-    }
 }
