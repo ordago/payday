@@ -73,7 +73,7 @@ it('should create paychecks for hourly rate employees only for current month', f
         ])->create();
 
         Timelog::factory()
-            ->count(3)
+            ->count(2)
             ->sequence(
                 ['employee_id' => $employee, 'minutes' => 60, 'started_at' => now()->subMonth(), 'stopped_at' => now()->subMonth()->addMinutes(60)],
                 ['employee_id' => $employee, 'minutes' => 60, 'started_at' => now(), 'stopped_at' => now()->addMinutes(60)],
@@ -92,7 +92,7 @@ it('should create paychecks for hourly rate employees only for current month', f
 
 it('should not create paychecks for hourly rate employees without time logs', function () {
     $this->travelTo(Carbon::parse('2022-02-10'), function () {
-        $employee = Employee::factory([
+        Employee::factory([
             'hourly_rate' => 10 * 100,
             'payment_type' => PaymentTypes::HOURLY_RATE->value,
         ])->create();
