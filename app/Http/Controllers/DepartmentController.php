@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\CreateDepartmentAction;
 use App\DataTransferObjects\DepartmentData;
-use App\Http\Requests\CreateDepartmentRequest;
+use App\Http\Requests\UpsertDepartmentRequest;
 use App\Http\Resources\DepartmentResource;
 use App\Models\Department;
 use Illuminate\Http\Request;
@@ -15,13 +15,13 @@ class DepartmentController extends Controller
     {
     }
 
-    public function store(CreateDepartmentRequest $request)
+    public function store(UpsertDepartmentRequest $request)
     {
         $departmentData = new DepartmentData(...$request->validated());
         return DepartmentResource::make($this->createDepartment->execute($departmentData));
     }
 
-    public function update(Request $request, Department $department)
+    public function update(UpsertDepartmentRequest $request, Department $department)
     {
         $department->name = $request->name;
         $department->description = $request->description;
