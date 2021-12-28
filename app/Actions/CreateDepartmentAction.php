@@ -7,8 +7,11 @@ use App\Models\Department;
 
 class CreateDepartmentAction
 {
-    public function execute(string $name, ?string $description): Department
+    public function execute(DepartmentData $departmentData): Department
     {
-        return Department::create(compact('name', 'description'));
+        return Department::create([
+            'name' => $departmentData->name,
+            'description' => $departmentData->description,
+        ]);
     }
 }

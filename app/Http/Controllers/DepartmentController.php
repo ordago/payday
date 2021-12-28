@@ -15,6 +15,7 @@ class DepartmentController extends Controller
 
     public function store(CreateDepartmentRequest $request)
     {
-        return DepartmentResource::make($this->createDepartment->execute($request->name, $request->description));
+        $departmentData = new DepartmentData(...$request->validated());
+        return DepartmentResource::make($this->createDepartment->execute($departmentData));
     }
 }
