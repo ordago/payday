@@ -16,15 +16,18 @@ class DepartmentController extends Controller
 
     public function store(UpsertDepartmentRequest $request)
     {
-        $departmentData = new DepartmentData(...$request->validated());
-        return DepartmentResource::make($this->upsertDepartment->execute($departmentData, new Department()));
+        return DepartmentResource::make($this->upsert($request, new Department()));
     }
 
     public function update(UpsertDepartmentRequest $request, Department $department)
     {
-        $departmentData = new DepartmentData(...$request->validated());
-        $this->upsertDepartment->execute($departmentData, $department);
-
+        $this->upsert($request, $department);
         return response()->noContent();
+    }
+
+    private function upsert(UpsertDepartmentRequest $request, Department $department): Department
+    {
+        $departmentData = new DepartmentData(...$request->validated());
+        return $this->upsertDepartment->execute($departmentData, $department);
     }
 }
