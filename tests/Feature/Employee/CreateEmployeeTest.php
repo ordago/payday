@@ -30,3 +30,14 @@ it('should return 422 if the email is invalid', function (?string $email) {
     'taken@gmail.com',
     'invalid',
 ]);
+
+it('should return 422 if the payment type is invalid', function () {
+    postJson(route('employees.store'), [
+        'fullName' => 'Test Employee',
+        'email' => 'email@email.com',
+        'departmentId' => Department::factory()->create()->uuid,
+        'jobTitle' => 'BE Developer',
+        'paymentType' => 'invalid',
+        'salary' => 50000 * 100,
+    ])->assertInvalid(['paymentType']);
+});
