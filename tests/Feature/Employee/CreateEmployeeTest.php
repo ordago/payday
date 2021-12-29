@@ -41,3 +41,39 @@ it('should return 422 if the payment type is invalid', function () {
         'salary' => 50000 * 100,
     ])->assertInvalid(['paymentType']);
 });
+
+it('should store an employee with salary', function () {
+    $employee = postJson(route('employees.store'), [
+        'fullName' => 'Test Employee',
+        'email' => 'email@email.com',
+        'departmentId' => Department::factory()->create()->uuid,
+        'jobTitle' => 'BE Developer',
+        'paymentType' => 'salary',
+        'salary' => 50000 * 100,
+    ])->json('data');
+
+    expect($employee)
+        ->full_name->toBe('Test Employee')
+        ->email->toBe('email@email.com')
+        ->job_title->toBe('BE Developer')
+        ->payment_type->toBe('salary')
+        ->salary->toBe(50000 * 100);
+});
+
+it('should store an employee with hourly rate', function () {
+    $employee = postJson(route('employees.store'), [
+        'fullName' => 'Test Employee',
+        'email' => 'email@email.com',
+        'departmentId' => Department::factory()->create()->uuid,
+        'jobTitle' => 'BE Developer',
+        'paymentType' => 'hourlyRate',
+        'hourlyRate' => 30 * 100,
+    ])->json('data');
+
+    expect($employee)
+        ->full_name->toBe('Test Employee')
+        ->email->toBe('email@email.com')
+        ->job_title->toBe('BE Developer')
+        ->payment_type->toBe('hourlyRate')
+        ->hourly_rate->toBe(30 * 100);
+});
