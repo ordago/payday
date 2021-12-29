@@ -28,4 +28,5 @@ it('should return 422 if the email is invalid', function (?string $email) {
     '',
     null,
     'taken@gmail.com',
+    'invalid',
 ]);
