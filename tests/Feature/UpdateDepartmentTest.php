@@ -10,34 +10,21 @@ beforeEach(function () {
     $this->actingAs($user);
 });
 
-it('should update an existing department', function () {
+it('should update an existing department', function (string $name, string $description) {
     $department = Department::factory([
         'name' => 'Development',
         'description' => 'Description',
     ])->create();
 
     putJson(route('departments.update', ['department' => $department]), [
-        'name' => 'Development Updated',
-        'description' => 'Description Updated',
+        'name' => $name,
+        'description' => $description,
     ]);
 
     expect(Department::find($department->id))
-        ->name->toBe('Development Updated')
-        ->description->toBe('Description Updated');
-});
-
-it('should update an existing department with the same name', function () {
-    $department = Department::factory([
-        'name' => 'Development',
-        'description' => 'Description',
-    ])->create();
-
-    putJson(route('departments.update', ['department' => $department]), [
-        'name' => 'Development',
-        'description' => 'Description Updated',
-    ]);
-
-    expect(Department::find($department->id))
-        ->name->toBe('Development')
-        ->description->toBe('Description Updated');
-});
+        ->name->toBe($name)
+        ->description->toBe($description);
+})->with([
+    ['name' => 'Development Updated', 'description' => 'Description Updated'],
+    ['name' => 'Development', 'description' => 'Description Updated'],
+]);
