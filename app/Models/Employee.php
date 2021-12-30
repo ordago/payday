@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Enums\PaymentTypes;
 use App\Models\Concerns\HasUuid;
-use App\PaymentTypes\Concerns\PaymentType;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -38,9 +38,11 @@ class Employee extends Model
         return 'uuid';
     }
 
-    public function getPaymentTypeAttribute(): PaymentType
+    protected function paymentType(): Attribute
     {
-        return PaymentTypes::from($this->original['payment_type'])->makePaymentType($this);
+        return new Attribute(
+            get: fn (string $value) => PaymentTypes::from($value)->makePaymentType($this),
+        );
     }
 
     public function paychecks(): HasMany
