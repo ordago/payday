@@ -1,6 +1,6 @@
 # Payday demo application
 
-This is a demo application for my book (Test-Driven APIs with Laravel and Pest)[https://martinjoo.gumroad.com/l/tdd-api-laravel]
+This is a demo application for my book [Test-Driven APIs with Laravel and Pest](https://martinjoo.gumroad.com/l/tdd-api-laravel)
 
 ## Install
 - Create a database called `payday`
