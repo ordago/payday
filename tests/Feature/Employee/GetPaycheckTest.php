@@ -21,12 +21,12 @@ it('should return all paychecks for an employee', function () {
             [
                 'employee_id' => $employee,
                 'net_amount' => 3000 * 100,
-                'payed_at' => $thisMonth,
+                'paid_at' => $thisMonth,
             ],
             [
                 'employee_id' => $employee,
                 'net_amount' => 2800 * 100,
-                'payed_at' => $lastMonth,
+                'paid_at' => $lastMonth,
             ],
         )
         ->count(2)
@@ -37,12 +37,12 @@ it('should return all paychecks for an employee', function () {
 
     expect($paychecks)->sequence(
         fn ($paycheck) => $paycheck
-            ->attributes->payedAt->toBe($thisMonth->format('Y-m-d'))
+            ->attributes->paidAt->toBe($thisMonth->format('Y-m-d'))
             ->attributes->netAmount->cents->toBe(3000 * 100)
             ->attributes->netAmount->dollars->toBe('$3,000.00'),
 
         fn ($paycheck) => $paycheck
-            ->attributes->payedAt->toBe($lastMonth->format('Y-m-d'))
+            ->attributes->paidAt->toBe($lastMonth->format('Y-m-d'))
             ->attributes->netAmount->cents->toBe(2800 * 100)
             ->attributes->netAmount->dollars->toBe('$2,800.00')
     );

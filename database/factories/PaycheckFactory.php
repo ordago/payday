@@ -28,7 +28,7 @@ class PaycheckFactory extends Factory
             'uuid' => $this->faker->uuid(),
             'employee_id' => Employee::factory(),
             'net_amount' => rand(4000, 10000) * 100,
-            'payed_at' => Carbon::now()->subMonth()->startOfMonth(),
+            'paid_at' => Carbon::now()->subMonth()->startOfMonth(),
         ];
     }
 }

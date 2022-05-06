@@ -20,7 +20,7 @@ class CreatePaychecksTable extends Migration
             $table->uuid('uuid');
             $table->foreignId('employee_id')->constrained();
             $table->unsignedBigInteger('net_amount');
-            $table->dateTime('payed_at');
+            $table->dateTime('paid_at');
             $table->timestamps();
         });
 

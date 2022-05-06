@@ -16,14 +16,14 @@ class Paycheck extends Model
         'uuid',
         'employee_id',
         'net_amount',
-        'payed_at',
+        'paid_at',
     ];
 
     protected $casts = [
         'id' => 'integer',
         'employee_id' => 'integer',
         'net_amount' => 'integer',
-        'payed_at' => 'datetime',
+        'paid_at' => 'datetime',
     ];
 
     public function employee(): BelongsTo

@@ -11,7 +11,7 @@ class PaycheckResource extends JsonApiResource
     public function toAttributes(Request $request): array
     {
         return [
-            'payedAt' => $this->payed_at->format('Y-m-d'),
+            'paidAt' => $this->paid_at->format('Y-m-d'),
             'netAmount' => Amount::from($this->net_amount)->toArray(),
         ];
     }
